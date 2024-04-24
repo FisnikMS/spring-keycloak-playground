@@ -22,29 +22,31 @@ import com.fk.flashcards.service.TopicService;
 @RequestMapping("/topic")
 public class TopicController {
 
-	@Autowired
-	private TopicService topicService;
+  @Autowired
+  private TopicService topicService;
 
-	@PostMapping()
+  @PostMapping()
   @PreAuthorize("hasRole('flashcard.edit')")
-	public Topic newTopic(@RequestBody Topic topic) {
-		return topicService.save(topic);
-	}
+  public Topic newTopic(@RequestBody Topic topic) {
+    return topicService.save(topic);
+  }
 
-	@GetMapping()
+  @GetMapping()
   @PreAuthorize("hasRole('flashcard.read')")
-	public ResponseEntity<List<Topic>> findAll() {
-		return ResponseEntity.ok(topicService.findAll());
-	}
-	@DeleteMapping("/{topic_id}")
-	public ResponseEntity<Topic> deleteTopic (@PathVariable("topic_id") Long topicId){
-		return ResponseEntity.ok(this.topicService.deleteTopic(topicId));
-	}
+  public ResponseEntity<List<Topic>> findAll() {
+    return ResponseEntity.ok(topicService.findAll());
+  }
 
-	@PutMapping("/{topic_id}")
-	public ResponseEntity<Topic> updateTopic(@PathVariable("topic_id") Long topic_id, @RequestBody Topic newTopic){
-		System.out.println(newTopic.toString());
-		return ResponseEntity.ok(this.topicService.updateTopic(topic_id, newTopic));
-	}
+  @PreAuthorize("hasRole('flashcard.edit')")
+  @DeleteMapping("/{topic_id}")
+  public ResponseEntity<Topic> deleteTopic(@PathVariable("topic_id") Long topicId) {
+    return ResponseEntity.ok(this.topicService.deleteTopic(topicId));
+  }
+
+  @PutMapping("/{topic_id}")
+  @PreAuthorize("hasRole('flashcard.edit')")
+  public ResponseEntity<Topic> updateTopic(@PathVariable("topic_id") Long topic_id, @RequestBody Topic newTopic) {
+    return ResponseEntity.ok(this.topicService.updateTopic(topic_id, newTopic));
+  }
 
 }
