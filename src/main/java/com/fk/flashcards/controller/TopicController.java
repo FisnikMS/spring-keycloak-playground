@@ -26,25 +26,25 @@ public class TopicController {
   private TopicService topicService;
 
   @PostMapping()
-  @PreAuthorize("hasRole('flashcard.edit')")
+  // @PreAuthorize("hasRole('topic.edit')")
   public Topic newTopic(@RequestBody Topic topic) {
     return topicService.save(topic);
   }
 
   @GetMapping()
-  @PreAuthorize("hasRole('flashcard.read')")
+  // @PreAuthorize("hasRole('topic.read')")
   public ResponseEntity<List<Topic>> findAll() {
     return ResponseEntity.ok(topicService.findAll());
   }
 
-  @PreAuthorize("hasRole('flashcard.edit')")
+  // @PreAuthorize("hasRole('topic.edit')")
   @DeleteMapping("/{topic_id}")
   public ResponseEntity<Topic> deleteTopic(@PathVariable("topic_id") Long topicId) {
     return ResponseEntity.ok(this.topicService.deleteTopic(topicId));
   }
 
-  @PutMapping("/{topic_id}")
-  @PreAuthorize("hasRole('flashcard.edit')")
+  // @PutMapping("/{topic_id}")
+  @PreAuthorize("hasRole('topic.edit')")
   public ResponseEntity<Topic> updateTopic(@PathVariable("topic_id") Long topic_id, @RequestBody Topic newTopic) {
     return ResponseEntity.ok(this.topicService.updateTopic(topic_id, newTopic));
   }
