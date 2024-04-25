@@ -1,20 +1,30 @@
 package com.fk.flashcards.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.JwtClaimNames;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.security.oauth2.jwt.Jwt;
+
+import com.fk.flashcards.controller.decorator.ExtractJwt;
 import com.fk.flashcards.domain.Topic;
 import com.fk.flashcards.service.TopicService;
 
@@ -24,6 +34,11 @@ public class TopicController {
 
   @Autowired
   private TopicService topicService;
+
+  @GetMapping("/test")
+  public ResponseEntity<String> getUserId(@ExtractJwt String userId){
+    return ResponseEntity.ok(userId);
+  }
 
   @PostMapping()
   // @PreAuthorize("hasRole('topic.edit')")
